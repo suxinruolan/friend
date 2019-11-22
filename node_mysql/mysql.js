@@ -3,7 +3,7 @@
  * @Author: 李鹏帅
  * @如果有bug，那肯定不是我的锅，嘤嘤嘤
  * @since: 2019-11-21 09:50:23
- * @lastTime: 2019-11-21 15:41:18
+ * @lastTime: 2019-11-21 19:05:56
  * @LastAuthor: Do not edit
  * @message: 这里主要实现了数据库的增删改查功能
  */
@@ -39,7 +39,18 @@ let query = function (sql) {
 }
 // 创建table-cartoon表
 
-// 添加公寓
+//login
+let findUserById = function (values) {
+  let sql = `select password from account where user='${values.user}';`
+  return query(sql)
+}
+//register
+let addUser = function (values) {
+  let addsql = `insert into account (user,password) values ("${values.user}","${values.password}");`
+  return query(addsql, values)
+}
+
+//insert
 let addFlat = function (values) {
   let addsql = `insert into flat (flatnum,floorsum,roomsum,starttime) values ("${values.flatnum}","${values.floorsum}","${values.roomsum}","${values.starttime}");`
   return query(addsql, values)
@@ -52,7 +63,7 @@ let addStu = function (values) {
   let addsql = `insert into stu (id,name,sex,nation,study,class,tel,flatnum,roomnum) values ("${values.id}","${values.name}","${values.sex}","${values.nation}","${values.study}","${values.class}","${values.tel}","${values.flatnum}","${values.roomnum}");`
   return query(addsql, values)
 }
-// 查询所有
+// select
 let findAllFlats = function () {
   let sql = `select * from flat;`
   return query(sql)
@@ -65,11 +76,7 @@ let findAllStus = function () {
   let sql = `select * from stu;`
   return query(sql)
 }
-let findAllUsers = function () {
-  let sql = `select * from account;`
-  return query(sql)
-}
-// 查找详情
+// select details
 let findFlatById = function (values) {
   let sql = `select * from flat where flatnum=${values.flatnum};`
   return query(sql)
@@ -86,11 +93,7 @@ let findStuByStudy = function (values) {
   let sql = `select * from stu where study='${values.study}';`
   return query(sql)
 }
-let findUserById = function (values) {
-  let sql = `select password from account where user='${values.user}';`
-  return query(sql)
-}
-// 更改详情
+// updata detaiils
 let updateFlat = function (values) {
   let updatesql = `update flat set flatnum="${values.flatnum}",floorsum="${values.floorsum}",roomsum="${values.roomsum}",starttime="${values.starttime}" where flatnum=${values.flatnum};`
   return query(updatesql)
@@ -103,7 +106,7 @@ let updateStu = function (values) {
   let updatesql = `update stu set id="${values.id}",name="${values.name}",sex="${values.sex}",nation="${values.nation}",study="${values.study}",class="${values.class}",tel="${values.tel}",flatnum="${values.flatnum}",roomnum="${values.roomnum}" where id=${values.id};`
   return query(updatesql)
 }
-// 删除详情
+// delete details
 let deleteFlat = function (values) {
   let deletesql = `delete from flat where flatnum=${values.flatnum};`
   return query(deletesql)
@@ -125,10 +128,10 @@ module.exports = {
   addFlat,
   addRoom,
   addStu,
+  addUser,
   findAllFlats,
   findAllRooms,
   findAllStus,
-  findAllUsers,
   findFlatById,
   findRoomById,
   findStuById,

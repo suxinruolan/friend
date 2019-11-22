@@ -3,7 +3,7 @@
  * @Author: 李鹏帅
  * @如果有bug，那肯定不是我的锅，嘤嘤嘤
  * @since: 2019-11-21 09:50:23
- * @lastTime: 2019-11-21 15:30:24
+ * @lastTime: 2019-11-21 19:59:23
  * @LastAuthor: Do not edit
  * @message: 封装了用与本地请求的api接口 这里使用了express框架 
  */
@@ -12,6 +12,33 @@ const express = require('express')
 const router = express.Router()//使用express 路由功能
 const flat = require('./mysql.js')
 
+
+//登陆
+router.get('/findUserById', async function (req, res) {
+  let result = await flat.findUserById(req.query)
+  console.log('result', result);
+  if (result.length == 0) {
+    res.json({ code: 200, msg: '用户名不存在', result: -1 })
+  } else {
+    if (result[0].password == req.query.password) {
+      res.json({ code: 200, msg: 'login success', result: 1 })
+    } else {
+      res.json({ code: 200, msg: '账号密码错误', result: 0 })
+    }
+  }
+})
+//注册账号密码
+router.get('/register', async function (req, res) {
+  let register = await flat.findUserById(req.query);
+  console.log('register', register);
+  if (register.length == 0) {
+    // console.log('register', register);
+    let result = await flat.addUser(req.query);
+    res.json({ code: 200, msg: 'register success', result: 1 })
+  } else {
+    res.json({ code: 200, msg: 'ok', result: 0 })
+  }
+})
 //查询所有的宿舍
 router.get('/findAllFlats', async function (req, res) {
   let result = await flat.findAllFlats()
@@ -25,11 +52,6 @@ router.get('/findAllRooms', async function (req, res) {
 //查询所有的学生
 router.get('/findAllStus', async function (req, res) {
   let result = await flat.findAllStus()
-  res.json({ code: 200, msg: 'ok', result: result })
-})
-//查询所有账号密码
-router.get('/findAllUsers', async function (req, res) {
-  let result = await flat.findAllUsers()
   res.json({ code: 200, msg: 'ok', result: result })
 })
 //根据公寓id查找
@@ -50,11 +72,6 @@ router.get('/findStuById', async function (req, res) {
 //通过学生找学生
 router.get('/findStuByStudy', async function (req, res) {
   let result = await flat.findStuByStudy(req.query)
-  res.json({ code: 200, msg: 'ok', result: result })
-})
-//查找账号密码用于登陆
-router.get('/findUserById', async function (req, res) {
-  let result = await flat.findUserById(req.query)
   res.json({ code: 200, msg: 'ok', result: result })
 })
 //增加公寓
