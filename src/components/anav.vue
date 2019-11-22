@@ -1,11 +1,20 @@
+<!--
+ * @Github: 我没有
+ * @Author: 李鹏帅
+ * @如果有bug，那肯定不是我的锅，嘤嘤嘤
+ * @since: 2019-11-21 09:50:23
+ * @lastTime: 2019-11-22 09:37:23
+ * @LastAuthor: Do not edit
+ * @message: 
+ -->
 <template>
   <div id="nav">
         <div class="nav">
             <p @click="gohome()">学生寝室管理系统</p>
             <div class="nav-main">
-                <el-button size="mini" @click="gostu()">学生信息</el-button>
                 <el-button size="mini" @click="goflat()">楼房信息</el-button>
                 <el-button size="mini" @click="goroom()">寝室信息</el-button>
+                <el-button size="mini" @click="gostu()">学生信息</el-button>
             </div>
         </div>
     <router-view/>
